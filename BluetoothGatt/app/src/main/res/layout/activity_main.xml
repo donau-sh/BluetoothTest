@@ -1,43 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="de.gm_w.android.bluetoothgatt.MainActivity">
-
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:stretchColumns="*">
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:padding="@dimen/activity_horizontal_margin"
         android:gravity="center_horizontal"
-        android:textSize="20sp"
-        android:text="My BluetoothGatt Test!"
-        android:id="@+id/textViewTitel" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Realtime Steps:"
-        android:id="@+id/labelSteps"
-        android:layout_alignTop="@+id/textViewTitel"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="81dp"
-        android:layout_alignEnd="@+id/textViewTitel" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/editTextSteps"
-        android:layout_below="@+id/labelSteps"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="27dp"
-        android:layout_alignEnd="@+id/textViewTitel" />
-
-</RelativeLayout>
+        android:textSize="42sp"
+        android:text="Android Weather Station"/>
+    <TableRow>
+        <TextView
+            android:id="@+id/text_temperature"
+            android:layout_column="0"
+            android:textSize="@dimen/measurement_text_size"
+            android:gravity="center_horizontal"/>
+        <TextView
+            android:layout_column="2"
+            android:id="@+id/text_pressure"
+            android:textSize="@dimen/measurement_text_size"
+            android:gravity="center_horizontal"/>
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:layout_column="0"
+            android:textSize="@dimen/label_text_size"
+            android:gravity="center_horizontal"
+            android:text="Ambient Temperature"/>
+        <TextView
+            android:layout_column="2"
+            android:textSize="@dimen/label_text_size"
+            android:gravity="center_horizontal"
+            android:text="Barometric Pressure"/>
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:id="@+id/text_humidity"
+            android:layout_column="0"
+            android:textSize="@dimen/measurement_text_size"
+            android:gravity="center_horizontal"/>
+        <TextView
+            android:id="@+id/text_steps"
+            android:layout_column="2"
+            android:textSize="@dimen/measurement_text_size"
+            android:gravity="center_horizontal"/>
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:layout_column="0"
+            android:textSize="@dimen/label_text_size"
+            android:gravity="center_horizontal"
+            android:text="Humidity"/>
+        <TextView
+            android:layout_column="2"
+            android:textSize="@dimen/label_text_size"
+            android:gravity="center_horizontal"
+            android:text="Steps"/>
+    </TableRow>
+</TableLayout>
