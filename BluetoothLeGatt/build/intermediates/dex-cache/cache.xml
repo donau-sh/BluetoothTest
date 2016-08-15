@@ -1,19 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" >
-
-    <item
-        jar="/Users/blue/AndroidStudioProjects/Github/BluetoothGatt/BluetoothLeGatt/Application/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="235fd6ede3ac4887db5b938a2bcdeb93d3f2b02e">
-        <dex dex="/Users/blue/AndroidStudioProjects/Github/BluetoothGatt/BluetoothLeGatt/Application/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_83fd09026bda4c51436c8219d45d6d9a7816cd2d/classes.dex" />
-    </item>
-    <item
-        jar="/Users/blue/AndroidStudioProjects/Github/BluetoothGatt/BluetoothLeGatt/Application/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="bf3db3697949b1f7a3dfc5802f547d93de397639">
-        <dex dex="/Users/blue/AndroidStudioProjects/Github/BluetoothGatt/BluetoothLeGatt/Application/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_052dbdd1511c9fe613026a4c1239daceffc3090a/classes.dex" />
-    </item>
-
-</items>
+<items version="2" />

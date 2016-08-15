@@ -249,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothAdapter.
             invalidateOptionsMenu();
         }
     }
-
+/*
     private static final int STATE_DISCONNECTED = 0;
     private static final int STATE_CONNECTING = 1;
     private static final int STATE_CONNECTED = 2;
@@ -312,6 +312,7 @@ public class MainActivity extends AppCompatActivity implements BluetoothAdapter.
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
         }
     };
+*/
 
 /*
     private BluetoothGattCallback myGattCallback = new BluetoothGattCallback() {
@@ -357,233 +358,233 @@ public class MainActivity extends AppCompatActivity implements BluetoothAdapter.
     * one characteristic be read or written at a time until all of our sensors
     * are enabled and we are registered to get notifications.
     */
-//    private BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
-//
-//
-//        /* State Machine Tracking */
-//        private int mState = 0;
-//
-//        private void reset() { mState = 0; }
-//
-//        private void advance() { mState++; }
-//
-//        /*
-//         * Send an enable command to each sensor by writing a configuration
-//         * characteristic.  This is specific to the SensorTag to keep power
-//         * low by disabling sensors you aren't using.
-//         */
-//
-//        private void enableNextSensor(BluetoothGatt gatt) {
-//            BluetoothGattCharacteristic characteristic;
-//            switch (mState) {
-//                case 0:
-//                    Log.d(TAG, "Enabling pressure cal");
-//                    characteristic = gatt.getService(PRESSURE_SERVICE)
-//                            .getCharacteristic(PRESSURE_CONFIG_CHAR);
-//                    characteristic.setValue(new byte[] {0x02});
-//                    break;
-//                case 1:
-//                    Log.d(TAG, "Enabling pressure");
-//                    characteristic = gatt.getService(PRESSURE_SERVICE)
-//                            .getCharacteristic(PRESSURE_CONFIG_CHAR);
-//                    characteristic.setValue(new byte[] {0x01});
-//                    break;
-//                case 2:
-//                    Log.d(TAG, "Enabling humidity");
-//                    characteristic = gatt.getService(HUMIDITY_SERVICE)
-//                            .getCharacteristic(HUMIDITY_CONFIG_CHAR);
-//                    characteristic.setValue(new byte[] {0x01});
-//                    break;
-//                default:
-//                    mHandler.sendEmptyMessage(MSG_DISMISS);
-//                    Log.i(TAG, "All Sensors Enabled");
-//                    return;
-//            }
-//
-//            gatt.writeCharacteristic(characteristic);
-//        }
-//
-//        /*
-//         * Read the data characteristic's value for each sensor explicitly
-//         */
-//
-//        private void readNextSensor(BluetoothGatt gatt) {
-//            BluetoothGattCharacteristic characteristic;
-//            switch (mState) {
-//                case 0:
-//                    Log.d(TAG, "Reading pressure cal");
-//                    characteristic = gatt.getService(PRESSURE_SERVICE)
-//                            .getCharacteristic(PRESSURE_CAL_CHAR);
-//                    break;
-//                case 1:
-//                    Log.d(TAG, "Reading pressure");
-//                    characteristic = gatt.getService(PRESSURE_SERVICE)
-//                            .getCharacteristic(PRESSURE_DATA_CHAR);
-//                    break;
-//                case 2:
-//                    Log.d(TAG, "Reading humidity");
-//                    characteristic = gatt.getService(HUMIDITY_SERVICE)
-//                            .getCharacteristic(HUMIDITY_DATA_CHAR);
-//                    break;
-//                default:
-//                    mHandler.sendEmptyMessage(MSG_DISMISS);
-//                    Log.i(TAG, "All Sensors Enabled");
-//                    return;
-//            }
-//
-//            gatt.readCharacteristic(characteristic);
-//        }
-//
-//
-//        /*
-//         * Enable notification of changes on the data characteristic for each sensor
-//         * by writing the ENABLE_NOTIFICATION_VALUE flag to that characteristic's
-//         * configuration descriptor.
-//         */
-//
-//        private void setNotifyNextSensor(BluetoothGatt gatt) {
-//            BluetoothGattCharacteristic characteristic;
-//            switch (mState) {
-//                case 0:
-//                    Log.d(TAG, "Set notify pressure cal");
-//                    characteristic = gatt.getService(PRESSURE_SERVICE)
-//                            .getCharacteristic(PRESSURE_CAL_CHAR);
-//                    break;
-//                case 1:
-//                    Log.d(TAG, "Set notify pressure");
-//                    characteristic = gatt.getService(PRESSURE_SERVICE)
-//                            .getCharacteristic(PRESSURE_DATA_CHAR);
-//                    break;
-//                case 2:
-//                    Log.d(TAG, "Set notify humidity");
-//                    characteristic = gatt.getService(HUMIDITY_SERVICE)
-//                            .getCharacteristic(HUMIDITY_DATA_CHAR);
-//                    break;
-//                default:
-//                    mHandler.sendEmptyMessage(MSG_DISMISS);
-//                    Log.i(TAG, "All Sensors Enabled");
-//                    return;
-//            }
-//
-//            //Enable local notifications
-//            gatt.setCharacteristicNotification(characteristic, true);
-//            //Enabled remote notifications
-//            BluetoothGattDescriptor desc = characteristic.getDescriptor(CONFIG_DESCRIPTOR);
-//            desc.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-//            gatt.writeDescriptor(desc);
-//        }
-//
-//
-//        @Override
-//        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-//            Log.d(TAG, "Connection State Change: "+status+" -> "+connectionState(newState));
-//            if (status == BluetoothGatt.GATT_SUCCESS && newState == BluetoothProfile.STATE_CONNECTED) {
-//                /*
-//                 * Once successfully connected, we must next discover all the services on the
-//                 * device before we can read and write their characteristics.
-//                 */
-//                gatt.discoverServices();
-//                mHandler.sendMessage(Message.obtain(null, MSG_PROGRESS, "Discovering Services..."));
-//            } else if (status == BluetoothGatt.GATT_SUCCESS && newState == BluetoothProfile.STATE_DISCONNECTED) {
-//                /*
-//                 * If at any point we disconnect, send a message to clear the weather values
-//                 * out of the UI
-//                 */
-//                mHandler.sendEmptyMessage(MSG_CLEAR);
-//            } else if (status != BluetoothGatt.GATT_SUCCESS) {
-//                /*
-//                 * If there is a failure at any stage, simply disconnect
-//                 */
-//                gatt.disconnect();
-//            }
-//        }
-//
-//        @Override
-//        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-//            Log.d(TAG, "Services Discovered: "+status);
-//            mHandler.sendMessage(Message.obtain(null, MSG_PROGRESS, "Enabling Sensors..."));
-//            /*
-//             * With services discovered, we are going to reset our state machine and start
-//             * working through the sensors we need to enable
-//             */
-//            reset();
-//            enableNextSensor(gatt);
-//        }
-//
-//        private void onSuccess(Object data) {
-//            if(mGattCallback != null) {
-//
-//            }
-//        }
-//
-//        @Override
-//        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-//            //For each read, pass the data up to the UI thread to update the display
-//            if (HUMIDITY_DATA_CHAR.equals(characteristic.getUuid())) {
-//                mHandler.sendMessage(Message.obtain(null, MSG_HUMIDITY, characteristic));
-//            }
-//            if (PRESSURE_DATA_CHAR.equals(characteristic.getUuid())) {
-//                mHandler.sendMessage(Message.obtain(null, MSG_PRESSURE, characteristic));
-//            }
-//            if (PRESSURE_CAL_CHAR.equals(characteristic.getUuid())) {
-//                mHandler.sendMessage(Message.obtain(null, MSG_PRESSURE_CAL, characteristic));
-//            }
-//
-//            //After reading the initial value, next we enable notifications
-//            setNotifyNextSensor(gatt);
-//        }
-//
-//        @Override
-//        public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-//            //After writing the enable flag, next we read the initial value
-//            readNextSensor(gatt);
-//        }
-//
-//        @Override
-//        public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-//            /*
-//             * After notifications are enabled, all updates from the device on characteristic
-//             * value changes will be posted here.  Similar to read, we hand these up to the
-//             * UI thread to update the display.
-//             */
-//            if (HUMIDITY_DATA_CHAR.equals(characteristic.getUuid())) {
-//                mHandler.sendMessage(Message.obtain(null, MSG_HUMIDITY, characteristic));
-//            }
-//            if (PRESSURE_DATA_CHAR.equals(characteristic.getUuid())) {
-//                mHandler.sendMessage(Message.obtain(null, MSG_PRESSURE, characteristic));
-//            }
-//            if (PRESSURE_CAL_CHAR.equals(characteristic.getUuid())) {
-//                mHandler.sendMessage(Message.obtain(null, MSG_PRESSURE_CAL, characteristic));
-//            }
-//        }
-//
-//        @Override
-//        public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-//            //Once notifications are enabled, we move to the next sensor and start over with enable
-//            advance();
-//            enableNextSensor(gatt);
-//        }
-//
-//        @Override
-//        public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
-//            Log.d(TAG, "Remote RSSI: "+rssi);
-//        }
-//
-//        private String connectionState(int status) {
-//            switch (status) {
-//                case BluetoothProfile.STATE_CONNECTED:
-//                    return "Connected";
-//                case BluetoothProfile.STATE_DISCONNECTED:
-//                    return "Disconnected";
-//                case BluetoothProfile.STATE_CONNECTING:
-//                    return "Connecting";
-//                case BluetoothProfile.STATE_DISCONNECTING:
-//                    return "Disconnecting";
-//                default:
-//                    return String.valueOf(status);
-//            }
-//        }
-//    };
+    private BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
+
+
+        /* State Machine Tracking */
+        private int mState = 0;
+
+        private void reset() { mState = 0; }
+
+        private void advance() { mState++; }
+
+        /*
+         * Send an enable command to each sensor by writing a configuration
+         * characteristic.  This is specific to the SensorTag to keep power
+         * low by disabling sensors you aren't using.
+         */
+
+        private void enableNextSensor(BluetoothGatt gatt) {
+            BluetoothGattCharacteristic characteristic;
+            switch (mState) {
+                case 0:
+                    Log.d(TAG, "Enabling pressure cal");
+                    characteristic = gatt.getService(PRESSURE_SERVICE)
+                            .getCharacteristic(PRESSURE_CONFIG_CHAR);
+                    characteristic.setValue(new byte[] {0x02});
+                    break;
+                case 1:
+                    Log.d(TAG, "Enabling pressure");
+                    characteristic = gatt.getService(PRESSURE_SERVICE)
+                            .getCharacteristic(PRESSURE_CONFIG_CHAR);
+                    characteristic.setValue(new byte[] {0x01});
+                    break;
+                case 2:
+                    Log.d(TAG, "Enabling humidity");
+                    characteristic = gatt.getService(HUMIDITY_SERVICE)
+                            .getCharacteristic(HUMIDITY_CONFIG_CHAR);
+                    characteristic.setValue(new byte[] {0x01});
+                    break;
+                default:
+                    mHandler.sendEmptyMessage(MSG_DISMISS);
+                    Log.i(TAG, "All Sensors Enabled");
+                    return;
+            }
+
+            gatt.writeCharacteristic(characteristic);
+        }
+
+        /*
+         * Read the data characteristic's value for each sensor explicitly
+         */
+
+        private void readNextSensor(BluetoothGatt gatt) {
+            BluetoothGattCharacteristic characteristic;
+            switch (mState) {
+                case 0:
+                    Log.d(TAG, "Reading pressure cal");
+                    characteristic = gatt.getService(PRESSURE_SERVICE)
+                            .getCharacteristic(PRESSURE_CAL_CHAR);
+                    break;
+                case 1:
+                    Log.d(TAG, "Reading pressure");
+                    characteristic = gatt.getService(PRESSURE_SERVICE)
+                            .getCharacteristic(PRESSURE_DATA_CHAR);
+                    break;
+                case 2:
+                    Log.d(TAG, "Reading humidity");
+                    characteristic = gatt.getService(HUMIDITY_SERVICE)
+                            .getCharacteristic(HUMIDITY_DATA_CHAR);
+                    break;
+                default:
+                    mHandler.sendEmptyMessage(MSG_DISMISS);
+                    Log.i(TAG, "All Sensors Enabled");
+                    return;
+            }
+
+            gatt.readCharacteristic(characteristic);
+        }
+
+
+        /*
+         * Enable notification of changes on the data characteristic for each sensor
+         * by writing the ENABLE_NOTIFICATION_VALUE flag to that characteristic's
+         * configuration descriptor.
+         */
+
+        private void setNotifyNextSensor(BluetoothGatt gatt) {
+            BluetoothGattCharacteristic characteristic;
+            switch (mState) {
+                case 0:
+                    Log.d(TAG, "Set notify pressure cal");
+                    characteristic = gatt.getService(PRESSURE_SERVICE)
+                            .getCharacteristic(PRESSURE_CAL_CHAR);
+                    break;
+                case 1:
+                    Log.d(TAG, "Set notify pressure");
+                    characteristic = gatt.getService(PRESSURE_SERVICE)
+                            .getCharacteristic(PRESSURE_DATA_CHAR);
+                    break;
+                case 2:
+                    Log.d(TAG, "Set notify humidity");
+                    characteristic = gatt.getService(HUMIDITY_SERVICE)
+                            .getCharacteristic(HUMIDITY_DATA_CHAR);
+                    break;
+                default:
+                    mHandler.sendEmptyMessage(MSG_DISMISS);
+                    Log.i(TAG, "All Sensors Enabled");
+                    return;
+            }
+
+            //Enable local notifications
+            gatt.setCharacteristicNotification(characteristic, true);
+            //Enabled remote notifications
+            BluetoothGattDescriptor desc = characteristic.getDescriptor(CONFIG_DESCRIPTOR);
+            desc.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+            gatt.writeDescriptor(desc);
+        }
+
+
+        @Override
+        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            Log.d(TAG, "Connection State Change: "+status+" -> "+connectionState(newState));
+            if (status == BluetoothGatt.GATT_SUCCESS && newState == BluetoothProfile.STATE_CONNECTED) {
+                /*
+                 * Once successfully connected, we must next discover all the services on the
+                 * device before we can read and write their characteristics.
+                 */
+                gatt.discoverServices();
+                mHandler.sendMessage(Message.obtain(null, MSG_PROGRESS, "Discovering Services..."));
+            } else if (status == BluetoothGatt.GATT_SUCCESS && newState == BluetoothProfile.STATE_DISCONNECTED) {
+                /*
+                 * If at any point we disconnect, send a message to clear the weather values
+                 * out of the UI
+                 */
+                mHandler.sendEmptyMessage(MSG_CLEAR);
+            } else if (status != BluetoothGatt.GATT_SUCCESS) {
+                /*
+                 * If there is a failure at any stage, simply disconnect
+                 */
+                gatt.disconnect();
+            }
+        }
+
+        @Override
+        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+            Log.d(TAG, "Services Discovered: "+status);
+            mHandler.sendMessage(Message.obtain(null, MSG_PROGRESS, "Enabling Sensors..."));
+            /*
+             * With services discovered, we are going to reset our state machine and start
+             * working through the sensors we need to enable
+             */
+            reset();
+            enableNextSensor(gatt);
+        }
+
+        private void onSuccess(Object data) {
+            if(mGattCallback != null) {
+
+            }
+        }
+
+        @Override
+        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            //For each read, pass the data up to the UI thread to update the display
+            if (HUMIDITY_DATA_CHAR.equals(characteristic.getUuid())) {
+                mHandler.sendMessage(Message.obtain(null, MSG_HUMIDITY, characteristic));
+            }
+            if (PRESSURE_DATA_CHAR.equals(characteristic.getUuid())) {
+                mHandler.sendMessage(Message.obtain(null, MSG_PRESSURE, characteristic));
+            }
+            if (PRESSURE_CAL_CHAR.equals(characteristic.getUuid())) {
+                mHandler.sendMessage(Message.obtain(null, MSG_PRESSURE_CAL, characteristic));
+            }
+
+            //After reading the initial value, next we enable notifications
+            setNotifyNextSensor(gatt);
+        }
+
+        @Override
+        public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            //After writing the enable flag, next we read the initial value
+            readNextSensor(gatt);
+        }
+
+        @Override
+        public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+            /*
+             * After notifications are enabled, all updates from the device on characteristic
+             * value changes will be posted here.  Similar to read, we hand these up to the
+             * UI thread to update the display.
+             */
+            if (HUMIDITY_DATA_CHAR.equals(characteristic.getUuid())) {
+                mHandler.sendMessage(Message.obtain(null, MSG_HUMIDITY, characteristic));
+            }
+            if (PRESSURE_DATA_CHAR.equals(characteristic.getUuid())) {
+                mHandler.sendMessage(Message.obtain(null, MSG_PRESSURE, characteristic));
+            }
+            if (PRESSURE_CAL_CHAR.equals(characteristic.getUuid())) {
+                mHandler.sendMessage(Message.obtain(null, MSG_PRESSURE_CAL, characteristic));
+            }
+        }
+
+        @Override
+        public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+            //Once notifications are enabled, we move to the next sensor and start over with enable
+            advance();
+            enableNextSensor(gatt);
+        }
+
+        @Override
+        public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
+            Log.d(TAG, "Remote RSSI: "+rssi);
+        }
+
+        private String connectionState(int status) {
+            switch (status) {
+                case BluetoothProfile.STATE_CONNECTED:
+                    return "Connected";
+                case BluetoothProfile.STATE_DISCONNECTED:
+                    return "Disconnected";
+                case BluetoothProfile.STATE_CONNECTING:
+                    return "Connecting";
+                case BluetoothProfile.STATE_DISCONNECTING:
+                    return "Disconnecting";
+                default:
+                    return String.valueOf(status);
+            }
+        }
+    };
 
     /*
      * We have a Handler to process event results on the main thread
