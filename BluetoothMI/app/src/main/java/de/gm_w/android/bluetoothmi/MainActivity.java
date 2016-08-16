@@ -7,9 +7,12 @@ import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,6 +78,13 @@ public class MainActivity extends AppCompatActivity {
             menu.findItem(R.id.menu_refresh).setActionView(
                     R.layout.actionbar_indeterminate_progress
             );
+            View viewProgressBar = (View) getLayoutInflater()
+                    .inflate(R.layout.actionbar_indeterminate_progress, null);
+            // set color of ProgressBar
+            ((ProgressBar)viewProgressBar.findViewById(R.id.progressBar))
+                    .getIndeterminateDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+            menu.findItem(R.id.menu_refresh).setActionView(viewProgressBar);
+
             menu.findItem(R.id.menu_scan).setVisible(false);
             menu.findItem(R.id.menu_stop).setVisible(true);
         }
@@ -84,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_scan:
-                //mLeDeviceListAdapter.clear();
+                mLeDeviceListAdapter.clear();
                 scanLeDevice(true);
                 Toast.makeText(this, "menu-scan", Toast.LENGTH_SHORT).show();
                 break;
@@ -107,6 +118,11 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(enableBleIntent, REQUEST_ENABLE_BT);
         }
 
+        // Initializes list view adapter.
+        mLeDeviceListAdapter = new LeDeviceListAdapter();
+        ListView listView = (ListView)findViewById(R.id.listView_blDevice);
+        listView.setAdapter(mLeDeviceListAdapter);
+
         scanLeDevice(true);
     }
 
@@ -124,17 +140,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         scanLeDevice(false);
-        //mLeDeviceListAdapter.clear();
+        mLeDeviceListAdapter.clear();
     }
 
 
+
+
     private void scanLeDevice(final boolean enable) {
-        // Initializes list view adapter.
-        mLeDeviceListAdapter = new LeDeviceListAdapter();
-        ListView listView = (ListView)findViewById(R.id.listView_blDevice);
-        listView.setAdapter(mLeDeviceListAdapter);
-
-
 
         if (enable) {
             // Stops scanning after a predefined scan period.
@@ -156,6 +168,8 @@ public class MainActivity extends AppCompatActivity {
         }
         invalidateOptionsMenu();
     }
+
+
 
     // Adapter for holding devices found through scanning.
     private class LeDeviceListAdapter extends BaseAdapter {
@@ -220,12 +234,18 @@ public class MainActivity extends AppCompatActivity {
             }
             viewHolder.deviceAddress.setText(device.getAddress());
 
+
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.i("onclick", "getView-setOnClickListener-adress: "+device.getAddress());
+                    Intent intent = new Intent(getBaseContext(), DeviceControlActivity.class);
+                    intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_NAME, device.getName());
+                    intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_ADDRESS, device.getAddress());
+                    v.getContext().startActivity(intent);
                 }
             });
+
 
             return convertView;
         }

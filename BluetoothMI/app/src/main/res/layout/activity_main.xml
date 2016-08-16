@@ -10,9 +10,8 @@
     tools:context="de.gm_w.android.bluetoothmi.MainActivity">
 
     <ListView
-
         android:id="@+id/listView_blDevice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"/>
 </RelativeLayout>
