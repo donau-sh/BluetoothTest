@@ -4,32 +4,30 @@
     api-level="23"
     density="mdpi"
     format="7"
-    timestamp="26404230273128"
+    timestamp="28300076472601"
     token="473996823667326424" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="322" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="48" />
     <task
         name="verifier"
-        duration="0" />
+        duration="9" />
 
-    <build timestamp="25065780832754" >
+    <artifact
+        location="/Users/blue/AndroidStudioProjects/Github/BluetoothGatt/BluetoothLeGatt/Application/build/outputs/apk/Application-debug.apk"
+        type="MAIN" />
+
+    <build timestamp="28300076472601" >
         <artifact
             location="/Users/blue/AndroidStudioProjects/Github/BluetoothGatt/BluetoothLeGatt/Application/build/outputs/apk/Application-debug.apk"
             type="MAIN" />
     </build>
-    <build timestamp="26385022847518" >
-        <artifact
-            location="/Users/blue/AndroidStudioProjects/Github/BluetoothGatt/BluetoothLeGatt/Application/build/intermediates/transforms/dex/debug/folders/1000/5/slice_1/classes.dex"
-            type="DEX" />
-    </build>
-    <build timestamp="26404230273128" />
 
 </instant-run>

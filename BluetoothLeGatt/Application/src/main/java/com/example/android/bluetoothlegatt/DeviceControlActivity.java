@@ -159,10 +159,6 @@ public class DeviceControlActivity extends Activity {
 
         final Intent intent = getIntent();
         mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
-
-        if (mDeviceName.equals("MI")) {
-
-        }
         mDeviceAddress = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
 
         // Sets up UI references.
